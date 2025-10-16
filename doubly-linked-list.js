@@ -10,7 +10,7 @@ class Node {
 class DLinkedList {
   #head = null
   #tail = null
-  #length = 0
+  #size = 0
 
   #first_node(new_node) {
     this.#head = new_node
@@ -25,7 +25,7 @@ class DLinkedList {
 
   #traverse_backward(index, type) {
     let current_node = this.#tail
-    let start_pos = this.#length - (type === "insert" ? 1 : 2)
+    let start_pos = this.#size - (type === "insert" ? 1 : 2)
     for (let i = start_pos; i > index; --i) current_node = current_node.prev
     return current_node
   }
@@ -37,7 +37,7 @@ class DLinkedList {
       new_node.next = this.#head
       this.#head = new_node
     }
-    this.#length++
+    this.#size++
   }
 
   add_back(new_node) {
@@ -47,14 +47,14 @@ class DLinkedList {
       new_node.prev = this.#tail
       this.#tail = new_node
     }
-    this.#length++
+    this.#size++
   }
 
   insert(new_node, index) {
-    if (index >= this.#length) throw new Error("index beyond bounds of list")
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
     if (index === 0) this.add_front(new_node)
     else {
-      if (index / this.#length <= 0.5) {
+      if (index / this.#size <= 0.5) {
         let current_node = this.#traverse_forward(index)
         let detached = current_node.next
         current_node.next = new_node
@@ -69,16 +69,16 @@ class DLinkedList {
         new_node.next = current_node
         detached.next = new_node
       }
-      this.#length++
+      this.#size++
     }
   }
 
   delete(index) {
-    if (index >= this.#length) throw new Error("index beyond bounds of list")
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
     if (index === 0) this.#head = this.#head.next
-    else if (index === this.#length - 1) this.#tail = this.#tail.prev
+    else if (index === this.#size - 1) this.#tail = this.#tail.prev
     else {
-      if (index / this.#length <= 0.5) {
+      if (index / this.#size <= 0.5) {
         let node_before_node_to_delete = this.#traverse_forward(index)
         node_before_node_to_delete.next = node_before_node_to_delete.next.next
         node_before_node_to_delete.next.prev = node_before_node_to_delete
@@ -88,7 +88,7 @@ class DLinkedList {
         node_after_node_to_delete.prev.next = node_after_node_to_delete
       }
     }
-    this.#length--
+    this.#size--
   }
 
   print() {

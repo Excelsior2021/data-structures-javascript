@@ -8,31 +8,37 @@ class Node {
 
 class SLinkedList {
   #head = null
+  #size = 0
 
   get head() {
     return this.#head
   }
 
+  get size() {
+    return this.#size
+  }
+
   #traverse(index) {
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
     let current_node = this.#head
-    for (let i = 1; i < index; ++i) {
-      current_node = current_node.next
-      if (current_node == null) throw new Error("index beyond bounds of list")
-    }
+    for (let i = 1; i < index; ++i) current_node = current_node.next
     return current_node
   }
 
-  add_front(node) {
-    node.next = this.#head
-    this.#head = node
+  add_front(new_node) {
+    new_node.next = this.#head
+    this.#head = new_node
+    this.#size++
   }
 
   add_back(new_node) {
-    let node = this.#head
-    while (node.next !== null) {
-      node = node.next
+    if (this.#head === null) this.#head = new_node
+    else {
+      let current_node = this.#head
+      while (current_node.next !== null) current_node = current_node.next
+      current_node.next = new_node
     }
-    node.next = new_node
+    this.#size++
   }
 
   insert(new_node, index) {
@@ -42,6 +48,7 @@ class SLinkedList {
       let detached = current_node.next
       current_node.next = new_node
       new_node.next = detached
+      this.#size++
     }
   }
 
@@ -51,6 +58,15 @@ class SLinkedList {
       let node_before_node_to_delete = this.#traverse(index)
       node_before_node_to_delete.next = node_before_node_to_delete.next.next
     }
+    this.#size--
+  }
+
+  access(index) {
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
+    if (index === 0) return this.head
+    let current_node = this.head.next
+    for (let i = 1; i < index; ++i) current_node = current_node.next
+    return current_node
   }
 
   print() {
