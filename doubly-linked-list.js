@@ -103,20 +103,3 @@ class DLinkedList {
     console.log(listStr)
   }
 }
-
-const list = new DLinkedList()
-
-list.add_front(new Node(1))
-list.add_front(new Node(2))
-list.add_front(new Node(3))
-list.add_front(new Node(4))
-list.add_front(new Node(5))
-list.add_front(new Node(6))
-list.add_front(new Node(7))
-list.add_front(new Node(8))
-
-list.insert(new Node(45), 7)
-// list.delete(3)
-// list.delete(5)
-
-list.print()

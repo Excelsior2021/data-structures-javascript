@@ -28,9 +28,3 @@ class CircularArray {
     console.log(this.#arr)
   }
 }
-
-const arr = new CircularArray(5)
-arr.add_front(1)
-arr.add_back(2)
-
-arr.print()

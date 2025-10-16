@@ -65,14 +65,3 @@ class SLinkedList {
     console.log(listStr)
   }
 }
-
-const list = new SLinkedList()
-
-list.add_front(new Node(1))
-list.add_front(new Node(2))
-list.add_front(new Node(3))
-list.add_back(new Node(4))
-list.insert(new Node(5), 4)
-list.delete(2)
-
-list.print()
