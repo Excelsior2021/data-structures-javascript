@@ -1,4 +1,4 @@
-class DLinkedList {
+export default class DLinkedList {
   #head = null
   #tail = null
   #size = 0

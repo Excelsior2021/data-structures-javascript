@@ -1,24 +1,6 @@
 import LinkedList from "./linked-list.js"
 
-class Node {
-  next = null
-
-  constructor(data) {
-    this.data = data
-  }
-}
-
-class SLinkedList extends LinkedList {
-  //constant time O(1)
-  get head() {
-    return this._head
-  }
-
-  //constant time O(1)
-  get size() {
-    return this._size
-  }
-
+export default class SLinkedList extends LinkedList {
   //linear time O(n)
   access(index) {
     if (index >= this._size) throw new Error("index beyond bounds of list")
