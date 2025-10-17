@@ -1,5 +1,6 @@
 export default class LinkedList {
   _head = null
+  _tail = null
   _size = 0
 
   //constant time O(1)
@@ -8,14 +9,23 @@ export default class LinkedList {
   }
 
   //constant time O(1)
+  get tail() {
+    return this._tail
+  }
+
+  //constant time O(1)
   get size() {
     return this._size
+  }
+
+  _beyondBoundsError() {
+    throw new Error("index beyond bounds of list")
   }
 
   //linear time O(n)
   _traverse(index) {
     if (index === undefined) throw new Error("invalid index")
-    if (index >= this._size) throw new Error("index beyond bounds of list")
+    if (index >= this._size) this.this._beyondBoundsError()
     let current_node = this._head
     for (let i = 1; i < index; ++i) current_node = current_node.next
     return current_node

@@ -3,7 +3,7 @@ import LinkedList from "./linked-list.js"
 export default class SLinkedList extends LinkedList {
   //linear time O(n)
   access(index) {
-    if (index >= this._size) throw new Error("index beyond bounds of list")
+    if (index >= this._size) this._beyondBoundsError()
     else if (index === 0) return this.head
     else {
       let current_node = this.head.next
