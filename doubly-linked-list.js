@@ -1,12 +1,3 @@
-class Node {
-  prev = null
-  next = null
-
-  constructor(data) {
-    this.data = data
-  }
-}
-
 class DLinkedList {
   #head = null
   #tail = null
@@ -17,10 +8,12 @@ class DLinkedList {
     return this.#head
   }
 
+  //constant time O(1)
   get tail() {
     return this.#tail
   }
 
+  //constant time O(1)
   get size() {
     return this.#size
   }
@@ -33,6 +26,7 @@ class DLinkedList {
 
   //linear time O(n)
   #traverse_forward(index) {
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
     let current_node = this.#head
     for (let i = 1; i < index; ++i) current_node = current_node.next
     return current_node
@@ -40,10 +34,22 @@ class DLinkedList {
 
   //linear time O(n)
   #traverse_backward(index, type) {
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
     let current_node = this.#tail
     let start_pos = this.#size - (type === "insert" ? 1 : 2)
     for (let i = start_pos; i > index; --i) current_node = current_node.prev
     return current_node
+  }
+
+  //linear time O(n)
+  access(index) {
+    if (index >= this.#size) throw new Error("index beyond bounds of list")
+    else if (index === 0) return this.head
+    else {
+      let current_node = this.head.next
+      for (let i = 1; i < index; ++i) current_node = current_node.next
+      return current_node
+    }
   }
 
   //constant time O(1)
@@ -109,17 +115,6 @@ class DLinkedList {
       }
     }
     this.#size--
-  }
-
-  //linear time O(n)
-  access(index) {
-    if (index >= this.#size) throw new Error("index beyond bounds of list")
-    else if (index === 0) return this.head
-    else {
-      let current_node = this.head.next
-      for (let i = 1; i < index; ++i) current_node = current_node.next
-      return current_node
-    }
   }
 
   //linear time O(n)

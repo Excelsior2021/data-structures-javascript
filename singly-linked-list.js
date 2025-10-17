@@ -1,3 +1,5 @@
+import LinkedList from "./linked-list.js"
+
 class Node {
   next = null
 
@@ -6,71 +8,20 @@ class Node {
   }
 }
 
-class SLinkedList {
-  #head = null
-  #size = 0
-
+class SLinkedList extends LinkedList {
   //constant time O(1)
   get head() {
-    return this.#head
+    return this._head
   }
 
   //constant time O(1)
   get size() {
-    return this.#size
-  }
-
-  //linear time O(n)
-  #traverse(index) {
-    if (index >= this.#size) throw new Error("index beyond bounds of list")
-    let current_node = this.#head
-    for (let i = 1; i < index; ++i) current_node = current_node.next
-    return current_node
-  }
-
-  //constant time O(1)
-  add_front(new_node) {
-    new_node.next = this.#head
-    this.#head = new_node
-    this.#size++
-  }
-
-  //linear time O(n)
-  add_back(new_node) {
-    if (this.#head === null) this.#head = new_node
-    else {
-      let current_node = this.#head
-      while (current_node.next !== null) current_node = current_node.next
-      current_node.next = new_node
-    }
-    this.#size++
-  }
-
-  //linear time O(n)
-  insert(new_node, index) {
-    if (index === 0) this.add_front(new_node)
-    else {
-      let current_node = this.#traverse(index)
-      let detached = current_node.next
-      current_node.next = new_node
-      new_node.next = detached
-      this.#size++
-    }
-  }
-
-  //linear time O(n)
-  delete(index) {
-    if (index === 0) this.#head = this.#head.next
-    else {
-      let node_before_node_to_delete = this.#traverse(index)
-      node_before_node_to_delete.next = node_before_node_to_delete.next.next
-    }
-    this.#size--
+    return this._size
   }
 
   //linear time O(n)
   access(index) {
-    if (index >= this.#size) throw new Error("index beyond bounds of list")
+    if (index >= this._size) throw new Error("index beyond bounds of list")
     else if (index === 0) return this.head
     else {
       let current_node = this.head.next
@@ -79,16 +30,43 @@ class SLinkedList {
     }
   }
 
+  //constant time O(1)
+  add_front(new_node) {
+    new_node.next = this._head
+    this._head = new_node
+    this._size++
+  }
+
   //linear time O(n)
-  print() {
-    let current_node = this.#head
-    let listStr = "["
-    while (current_node !== null) {
-      if (current_node.next === null) listStr += `${current_node.data}`
-      else listStr += `${current_node.data}, `
-      current_node = current_node.next
+  add_back(new_node) {
+    if (this._head === null) this._head = new_node
+    else {
+      let current_node = this._head
+      while (current_node.next !== null) current_node = current_node.next
+      current_node.next = new_node
     }
-    listStr += "]"
-    console.log(listStr)
+    this._size++
+  }
+
+  //linear time O(n)
+  insert(new_node, index) {
+    if (index === 0) this.add_front(new_node)
+    else {
+      const current_node = this._traverse(index)
+      const detached = current_node.next
+      current_node.next = new_node
+      new_node.next = detached
+      this._size++
+    }
+  }
+
+  //linear time O(n)
+  delete(index) {
+    if (index === 0) this._head = this._head.next
+    else {
+      const node_before_node_to_delete = this._traverse(index)
+      node_before_node_to_delete.next = node_before_node_to_delete.next.next
+    }
+    this._size--
   }
 }
