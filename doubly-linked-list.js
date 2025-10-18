@@ -2,24 +2,16 @@ import LinkedList from "./linked-list.js"
 
 export default class DLinkedList extends LinkedList {
   //constant time O(1)
-  #first_node(new_node) {
-    this._head = new_node
+  _first_node(new_node) {
+    super._first_node(new_node)
     this._tail = new_node
   }
 
   //linear time O(n)
-  #traverse_backward(index, type) {
-    if (index >= this._size) this._beyondBoundsError()
-    let current_node = this._tail
-    let start_pos = this._size - (type === "insert" ? 1 : 2)
-    for (let i = start_pos; i > index; --i) current_node = current_node.prev
-    return current_node
-  }
-
-  //linear time O(n)
   access(index) {
-    if (index >= this._size) this._beyondBoundsError()
-    else if (index === 0) return this._head
+    this._validIndex(index)
+    this._beyondBoundsError(index)
+    if (index === 0) return this._head
     else if (index === this._size - 1) return this._tail
     else {
       if (index / this._size <= 0.5) {
@@ -37,7 +29,7 @@ export default class DLinkedList extends LinkedList {
 
   //constant time O(1)
   add_front(new_node) {
-    if (this._head === null) this.#first_node(new_node)
+    if (this._head === null) this._first_node(new_node)
     else {
       this._head.prev = new_node
       new_node.next = this._head
@@ -48,7 +40,7 @@ export default class DLinkedList extends LinkedList {
 
   //constant time O(1)
   add_back(new_node) {
-    if (this._head === null) this.#first_node(new_node)
+    if (this._head === null) this._first_node(new_node)
     else {
       this._tail.next = new_node
       new_node.prev = this._tail
@@ -59,7 +51,8 @@ export default class DLinkedList extends LinkedList {
 
   //linear time O(n)
   insert(new_node, index) {
-    if (index >= this._size) this._beyondBoundsError()
+    this._validIndex(index)
+    this._beyondBoundsError(index)
     if (index === 0) this.add_front(new_node)
     else {
       if (index / this._size <= 0.5) {
@@ -70,7 +63,7 @@ export default class DLinkedList extends LinkedList {
         new_node.prev = current_node
         detached.prev = new_node
       } else {
-        let current_node = this.#traverse_backward(index, "insert")
+        let current_node = this._traverse_backward(index, "insert")
         let detached = current_node.prev
         current_node.prev = new_node
         new_node.prev = detached
@@ -83,7 +76,8 @@ export default class DLinkedList extends LinkedList {
 
   //linear time O(n)
   delete(index) {
-    if (index >= this._size) this._beyondBoundsError()
+    this._validIndex(index)
+    this._beyondBoundsError(index)
     if (index === 0) this._head = this._head.next
     else if (index === this._size - 1) {
       this._tail = this._tail.prev
@@ -94,7 +88,7 @@ export default class DLinkedList extends LinkedList {
         node_before_node_to_delete.next = node_before_node_to_delete.next.next
         node_before_node_to_delete.next.prev = node_before_node_to_delete
       } else {
-        let node_after_node_to_delete = this.#traverse_backward(index, "delete")
+        let node_after_node_to_delete = this._traverse_backward(index, "delete")
         node_after_node_to_delete.prev = node_after_node_to_delete.prev.prev
         node_after_node_to_delete.prev.next = node_after_node_to_delete
       }

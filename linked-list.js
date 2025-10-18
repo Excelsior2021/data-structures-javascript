@@ -18,16 +18,37 @@ export default class LinkedList {
     return this._size
   }
 
-  _beyondBoundsError() {
-    throw new Error("index beyond bounds of list")
+  //constant time O(1)
+  _validIndex(index) {
+    if (index < 0 || !Number.isInteger(index)) throw new Error("invalid index")
+  }
+
+  //constant time O(1)
+  _beyondBoundsError(index) {
+    if (index >= this._size) throw new Error("index beyond bounds of list")
+  }
+
+  //constant time O(1)
+  _first_node(new_node) {
+    this._head = new_node
   }
 
   //linear time O(n)
   _traverse(index) {
-    if (index === undefined) throw new Error("invalid index")
-    if (index >= this._size) this.this._beyondBoundsError()
+    this._validIndex(index)
+    this._beyondBoundsError(index)
     let current_node = this._head
     for (let i = 1; i < index; ++i) current_node = current_node.next
+    return current_node
+  }
+
+  //linear time O(n)
+  _traverse_backward(index, type) {
+    this._validIndex(index)
+    this._beyondBoundsError(index)
+    let current_node = this._tail
+    let start_pos = this._size - (type === "insert" ? 1 : 2)
+    for (let i = start_pos; i > index; --i) current_node = current_node.prev
     return current_node
   }
 

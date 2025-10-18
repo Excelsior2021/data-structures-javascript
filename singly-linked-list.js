@@ -14,14 +14,17 @@ export default class SLinkedList extends LinkedList {
 
   //constant time O(1)
   add_front(new_node) {
-    new_node.next = this._head
-    this._head = new_node
+    if (this._head === null) this._first_node(new_node)
+    else {
+      new_node.next = this._head
+      this._head = new_node
+    }
     this._size++
   }
 
   //linear time O(n)
   add_back(new_node) {
-    if (this._head === null) this._head = new_node
+    if (this._head === null) this._first_node(new_node)
     else {
       let current_node = this._head
       while (current_node.next !== null) current_node = current_node.next
@@ -32,6 +35,8 @@ export default class SLinkedList extends LinkedList {
 
   //linear time O(n)
   insert(new_node, index) {
+    this._validIndex(index)
+    this._beyondBoundsError(index)
     if (index === 0) this.add_front(new_node)
     else {
       const current_node = this._traverse(index)
@@ -44,6 +49,8 @@ export default class SLinkedList extends LinkedList {
 
   //linear time O(n)
   delete(index) {
+    this._validIndex(index)
+    this._beyondBoundsError(index)
     if (index === 0) this._head = this._head.next
     else {
       const node_before_node_to_delete = this._traverse(index)
