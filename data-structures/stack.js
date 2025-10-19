@@ -2,11 +2,15 @@ import Node from "./node.js"
 import SLinkedList from "./singly-linked-list.js"
 
 export default class Stack {
-  #stack
+  #list
   #size = 0
 
   constructor() {
-    this.#stack = new SLinkedList()
+    this.#list = new SLinkedList()
+  }
+
+  get size() {
+    return this.#size
   }
 
   #empty_stack() {
@@ -17,21 +21,21 @@ export default class Stack {
   }
 
   push(item) {
-    this.#stack.add_front(new Node(item))
+    this.#list.add_front(new Node(item))
     this.#size++
   }
 
   pop() {
     if (this.#empty_stack()) return
-    const item = this.#stack.access(0)
-    this.#stack.delete(0)
+    const item = this.#list.access(0)
+    this.#list.delete(0)
     this.#size--
     return item
   }
 
   peek() {
     if (this.#empty_stack()) return
-    const item = this.#stack.access(0).data
+    const item = this.#list.access(0).data
     return item
   }
 }
